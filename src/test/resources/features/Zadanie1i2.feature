@@ -50,6 +50,8 @@ Feature: Change user information after login and shopping
     And Quantity '5' is entered in input field
     And A button 'ADD TO CART' is clicked
     And A button 'PROCEED TO CHECKOUT' is clicked
-    Then /A new address <alias>, <address>, <city>, <zip/postal code>, <country>, <phone> is added
-    And /A success message is displayed
-    Then Close browser
+    And Confirm the address
+    And Choose the pickup method PrestaShop 'Pick up in-store'
+    And Choose the payment option 'Pay by Check'
+    Then A screenshot with the order confirmation and the amount
+    And Close browser

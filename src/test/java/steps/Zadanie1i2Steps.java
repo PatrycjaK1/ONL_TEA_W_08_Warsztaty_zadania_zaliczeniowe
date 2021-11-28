@@ -188,13 +188,45 @@ public class Zadanie1i2Steps {
     @And("A button 'PROCEED TO CHECKOUT' is clicked")
     public void clickProceedToCheckout() throws InterruptedException {
         Thread.sleep(2000);
-        //WebElement proceedToCheckout = driver.findElement(By.xpath("//a[@href='//mystore-testlab.coderslab.pl/index.php?controller=cart&action=show']"));   //przycisk "PROCEED TO CHECKOUT"
-        //proceedToCheckout.click();
         driver.findElement(By.xpath("(//a[@href='//mystore-testlab.coderslab.pl/index.php?controller=cart&action=show'])[last()]")).click();   //przycisk "PROCEED TO CHECKOUT"
         WebElement keyword = driver.findElement(By.className("product-line-info"));
         Assert.assertEquals("Hummingbird printed sweater", keyword.getText());
         Assert.assertTrue(keyword.isDisplayed());
-
         driver.findElement(By.xpath("//a[@href='https://mystore-testlab.coderslab.pl/index.php?controller=order']")).click();          //przycisk "PROCEED TO CHECKOUT" (drugi)
+    }
+
+    @And("Confirm the address")
+    public void ConfirmTheAddress() {
+        WebElement address = driver.findElement(By.className("radio-block"));   //wybór pierwszego adresu
+        address.click();
+        //Assert.assertTrue(address.isSelected());
+        driver.findElement(By.name("confirm-addresses")).click();          //przycisk "CONTINUE"
+    }
+
+    @And("Choose the pickup method PrestaShop 'Pick up in-store'")
+    public void chooseThePickupMethodPrestaShopPickUpInStore() {
+        WebElement shippingMethod = driver.findElement(By.className("carrier-name"));   //opcja "PrestaShop 'Pick up in-store'"
+        shippingMethod.click();
+        if (shippingMethod.isSelected()) {
+        } else {
+            driver.findElement(By.className("carrier-name")).click();
+        }
+        driver.findElement(By.name("confirmDeliveryOption")).click();                     //przycisk "CONTINUE"
+    }
+
+    @And("Choose the payment option 'Pay by Check'")
+    public void chooseThePaymentOptionPayByCheck() {
+        driver.findElement(By.xpath("//label[@for='payment-option-1']")).click();                       //opcja "Pay by Check"
+    }
+
+    @And("A button 'ORDER WITH AN OBLIGATION TO PAY' is clicked")
+    public void clickOrderWithAnObligationToPay() {
+        driver.findElement(By.id("conditions_to_approve[terms-and-conditions]")).click();               //opcja "I agree to the terms of service and will adhere to them unconditionally."
+        driver.findElement(By.xpath("//button[@class='btn btn-primary center-block']")).click();        //przycisk "ORDER WITH AN OBLIGATION TO PAY"
+    }
+
+    @Then("A screenshot with the order confirmation and the amount")
+    public void screenshotWithTheOrderConfirmationAndTheAmount() {
+        System.out.println("screenshot");
     }
 }
